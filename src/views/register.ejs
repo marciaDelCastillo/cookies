@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrate</title>
+</head>
+<body bgcolor="<%= locals.color ? locals.color :"white" %>">
+    <% if(locals.usuario){ %>
+        <p>Hola <%= locals.usuario.nombre %>, elegiste el color: <%= locals.color %>, tu email es:
+            <%= locals.usuario.email %> <%= locals.usuario.edad!="" ? " y tu edad es: "+locals.usuario.edad : "" %></p>
+    <%}%>
+    <form action= "/users/register" method="POST">
+        <label for="nombre">Nombre</label><br>
+        <input type="text" id="nombre" name="nombre" value="<%= locals.old && old.nombre ? old.nombre : "" %>"  ><br>
+        <% if(locals.errors && errors.nombre){%>
+            <p><%=errors.nombre.msg%></p>
+        <%}%>
+        <select name="color">
+            <option hidden selected value="">Seleccione un color</option>
+            <option value="red" <%=locals.old && old.color=="red" ? "selected" : ""%>>Red</option>
+            <option value="yellow" <%=locals.old && old.color=="yellow" ? "selected" : ""%>>Yellow</option>
+            <option value="blue" <%=locals.old && old.color=="blue" ? "selected" : ""%>>Blue</option>
+        </select><br>
+        <% if(locals.errors && errors.color){%>
+            <p><%=errors.color.msg%></p>
+        <%}%>
+        <label for="email">Email</label><br>
+        <input type="text" id="email" name="email" value="<%= locals.old && old.email ? old.email : "" %>"><br>
+        <% if(locals.errors && errors.email){%>
+            <p><%=errors.email.msg%></p>
+        <%}%>
+        <label for="edad" >Edad</label><br>
+        <input type="number"  id="edad" name="edad" value="<%= locals.old && old.edad ? old.edad : "" %>"><br>
+        <% if(locals.errors && errors.edad){%>
+            <p><%=errors.edad.msg%></p>
+        <%}%>
+        <input type="checkbox" name="persistencia">
+        <label for="persistencia">Recordar el color elegido</label>
+        <br>
+        <button type="submit">Enviar</button>        
+    </form>
+    <br>
+    <br>
+    <button><a href="/users/delete">Borrar preferencia de color</a></button>
+</body>
+</html>
